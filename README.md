@@ -136,13 +136,14 @@ The model achieves:
 - **Recall**: Balanced recall for both classes
 - **F1-Score**: Optimized for practical deployment
 
-## 🔄 Auto-Retraining-WE ARE WORKING ON THAT THERE IS SEVERAL BUGS TO DEBUG ! 
+## 🔄 Auto-Retraining
 
 The system includes automatic retraining capabilities:
 - Monitors new data additions
 - Triggers retraining when sufficient new samples are available
 - Saves model versions with timestamps
 - Logs all training activities
+- WE ARE WORKING ON THAT MODULE THERE IS SEVERAL BUGS TO DEBUG ! BUT OTHER THINGS WORKS WELL! THANKYOU!
 
 ## 🌐 API Endpoints
 
