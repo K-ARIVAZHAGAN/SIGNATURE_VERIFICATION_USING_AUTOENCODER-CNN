@@ -136,7 +136,7 @@ The model achieves:
 - **Recall**: Balanced recall for both classes
 - **F1-Score**: Optimized for practical deployment
 
-## 🔄 Auto-Retraining
+## 🔄 Auto-Retraining-WE ARE WORKING ON THAT THERE IS SEVERAL BUGS TO DEBUG ! 
 
 The system includes automatic retraining capabilities:
 - Monitors new data additions
