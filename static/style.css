@@ -1,0 +1,127 @@
+/* static/styles.css */
+:root {
+  --size: 8px;
+}
+
+
+.el {
+  background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72.0000010728836deg,#ec4b4b 144.0000021457672deg,#709ab9 216.00000858306885deg,#4dffbf 288.0000042915344deg,hsla(0,0%,98%,1) 1turn);
+  width: 100%;
+  height: 100%;
+  -webkit-mask:
+    radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
+    url("https://assets.codepen.io/605876/noise-mask.png") 256px 50% / 256px 256px;
+          mask:
+    radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
+    url("https://assets.codepen.io/605876/noise-mask.png") 256px 50% / 256px 256px;
+  -webkit-mask-composite: source-in, xor;
+          mask-composite: intersect;
+  -webkit-animation: flicker 20s infinite linear;
+          animation: flicker 20s infinite linear;
+}
+
+
+@-webkit-keyframes flicker {
+  to {
+    -webkit-mask-position: 50% 50%, 0 50%;
+            mask-position: 50% 50%, 0 50%;
+  }
+}
+
+@keyframes flicker {
+  to {
+    -webkit-mask-position: 50% 50%, 0 50%;
+            mask-position: 50% 50%, 0 50%;
+  }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000000;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  position: absolute;
+  background-color: #000000;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-family: Calibri;  
+  color: #dbdbdb;
+}
+p{
+  margin-bottom: 20px;
+  color: #dbdbdb;
+}
+h2{
+  position: fixed;
+  text-align: center;
+  top: 10%;
+  left: 50%;
+  translate: -50% -50%;
+  margin: 0;
+  font-size: 40px;
+  font-family: "Geist", sans-serif;
+  font-weight: 200;
+  color: rgb(89, 255, 0);
+  mix-blend-mode: color-dodge;
+/*   -webkit-text-stroke: 2px hsl(0 0% 100% / 0.95); */
+
+  
+}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="file"] {
+  color :rgb(150, 133, 133);
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 3px solid #ffffff4e;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+  
+}
+
+select {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+  
+}
+button {
+  background: conic-gradient(from 180deg at 50% 70%, hsla(0, 0%, 98%, 1) 0deg, #f1c40f49 20deg,  /* Gold */  #16a084aa 40deg,  /* Teal */ #f39d127f 60deg,  /* Yellow */  #297fb98e 80deg,  /* Blue */  #8d44ada2 100deg, /* Violet */#ff583379 120deg, /* Orange */#e74d3caa 140deg, /* Red */#2ecc7093 160deg, /* Green */ #9c59b68a 180deg, /* Lavender */ #1abc9c8a 200deg, /* Turquoise */ #34495e98 220deg, /* Charcoal */#e67d22a2 240deg, /* Caramel */#16a08498 260deg, /* Teal */ rgba(250, 250, 250, 0.612) 1turn);
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+  transition: background 0.4s ease;  /* Smooth background color transition */
+}
+
+button:hover {
+  background: conic-gradient(from 180deg at 50% 70%, hsla(0, 0%, 98%, 1) 0deg, #6a1b9a 20deg,   /* Purple */ #ff5733 40deg,   /* Orange */ #2980b9 60deg,   /* Blue */ #2ecc71 80deg,   /* Green */#f39c12 100deg,  /* Yellow */#e74c3c 120deg,  /* Red */#8e44ad 140deg,  /* Violet */#f1c40f 160deg,  /* Gold */#16a085 180deg,  /* Teal */#e67e22 200deg,  /* Caramel */#1abc9c 220deg,  /* Turquoise */#9b59b6 240deg,  /* Lavender */#34495e 260deg,  /* Charcoal */#f39c12 280deg,  /* Yellow */#16a085 300deg,  /* Teal */hsla(0, 0%, 98%, 1) 1turn);
+}

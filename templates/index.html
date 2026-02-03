@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Verification System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+</head>
+<body>
+    <div class="el"></div>
+    <h2>SIGNATURE VERIFICATION SYSTEM</h2>
+    
+    <div class="container">
+        <!-- Option 1: Check Signature -->
+        <h1>🔍 Check Signature</h1>
+        <p>Upload a signature image to verify if it's original or forged.</p>
+        
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit" style="color: rgb(255, 255, 255);">🔍 Verify Signature</button>
+        </form>
+        
+        <hr style="margin: 30px 0; border: 1px solid #ffffff4e;">
+        
+        <!-- Option 2: Add Genuine Signature -->
+        <h1>📝 Add Genuine Signature</h1>
+        <p>Help improve the system by adding genuine signatures to the dataset.</p>
+        
+        <form id="addGenuineForm" enctype="multipart/form-data">
+            <input type="file" id="genuine_image" name="signature_image" accept="image/*" required>
+            <input type="text" id="genuine_user_name" name="user_name" placeholder="Your Name (Optional)" 
+                   style="background: transparent; border: 3px solid #ffffff4e; color: #dbdbdb; margin-bottom: 10px; padding: 10px; border-radius: 4px; width: 100%; max-width: 300px; box-sizing: border-box;">
+            <textarea id="genuine_description" name="description" rows="3" placeholder="Description (Optional)" 
+                      style="background: transparent; border: 3px solid #ffffff4e; color: #dbdbdb; margin-bottom: 10px; padding: 10px; border-radius: 4px; width: 100%; max-width: 300px; box-sizing: border-box; resize: vertical;"></textarea>
+            <button type="submit" style="color: rgb(255, 255, 255);">📝 Add Genuine Signature</button>
+        </form>
+        
+        <div id="genuineResult" style="display: none; margin-top: 15px; padding: 12px; border-radius: 8px; font-weight: 500;"></div>
+        
+        <hr style="margin: 30px 0; border: 1px solid #ffffff4e;">
+        
+        <!-- Option 3: Add Forged Signature -->
+        <h1>❌ Add Forged Signature</h1>
+        <p>Help improve detection by adding forged/fake signature samples to the dataset.</p>
+        
+        <form id="addForgedForm" enctype="multipart/form-data">
+            <input type="file" id="forged_image" name="signature_image" accept="image/*" required>
+            <input type="text" id="forged_user_name" name="user_name" placeholder="Your Name (Optional)" 
+                   style="background: transparent; border: 3px solid #ffffff4e; color: #dbdbdb; margin-bottom: 10px; padding: 10px; border-radius: 4px; width: 100%; max-width: 300px; box-sizing: border-box;">
+            <textarea id="forged_description" name="description" rows="3" placeholder="Description (Optional)" 
+                      style="background: transparent; border: 3px solid #ffffff4e; color: #dbdbdb; margin-bottom: 10px; padding: 10px; border-radius: 4px; width: 100%; max-width: 300px; box-sizing: border-box; resize: vertical;"></textarea>
+            <button type="submit" style="color: rgb(255, 255, 255);">❌ Add Forged Signature</button>
+        </form>
+        
+        <div id="forgedResult" style="display: none; margin-top: 15px; padding: 12px; border-radius: 8px; font-weight: 500;"></div>
+    </div>
+    
+    <script>
+        // Handle adding genuine signature form submission
+        document.getElementById('addGenuineForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            const fileInput = document.getElementById('genuine_image');
+            const userName = document.getElementById('genuine_user_name').value;
+            const description = document.getElementById('genuine_description').value;
+            
+            if (!fileInput.files[0]) {
+                showResult('Please select an image file.', 'error', 'genuineResult');
+                return;
+            }
+            
+            formData.append('signature_image', fileInput.files[0]);
+            formData.append('user_name', userName);
+            formData.append('description', description);
+            
+            // Show loading message
+            showResult('Uploading genuine signature and training model...', 'info', 'genuineResult');
+            
+            fetch('/add_genuine', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showResult(data.message, 'success', 'genuineResult');
+                    // Clear form
+                    document.getElementById('addGenuineForm').reset();
+                } else {
+                    showResult(data.message, 'error', 'genuineResult');
+                }
+            })
+            .catch(error => {
+                showResult('Error uploading signature: ' + error.message, 'error', 'genuineResult');
+            });
+        });
+
+        // Handle adding forged signature form submission
+        document.getElementById('addForgedForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            const fileInput = document.getElementById('forged_image');
+            const userName = document.getElementById('forged_user_name').value;
+            const description = document.getElementById('forged_description').value;
+            
+            if (!fileInput.files[0]) {
+                showResult('Please select an image file.', 'error', 'forgedResult');
+                return;
+            }
+            
+            formData.append('signature_image', fileInput.files[0]);
+            formData.append('user_name', userName);
+            formData.append('description', description);
+            
+            // Show loading message
+            showResult('Uploading forged signature and training model...', 'info', 'forgedResult');
+            
+            fetch('/add_forged', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showResult(data.message, 'success', 'forgedResult');
+                    // Clear form
+                    document.getElementById('addForgedForm').reset();
+                } else {
+                    showResult(data.message, 'error', 'forgedResult');
+                }
+            })
+            .catch(error => {
+                showResult('Error uploading forged signature: ' + error.message, 'error', 'forgedResult');
+            });
+        });
+
+        function showResult(message, type, elementId) {
+            const resultDiv = document.getElementById(elementId);
+            resultDiv.textContent = message;
+            resultDiv.style.display = 'block';
+            
+            // Style for dark theme
+            let bgColor, borderColor, textColor;
+            if (type === 'success') {
+                bgColor = '#1e4d3a';
+                borderColor = '#28a745';
+                textColor = '#28a745';
+            } else if (type === 'error') {
+                bgColor = '#4d1e1e';
+                borderColor = '#dc3545';
+                textColor = '#dc3545';
+            } else {
+                bgColor = '#1e3a4d';
+                borderColor = '#17a2b8';
+                textColor = '#17a2b8';
+            }
+            
+            resultDiv.style.backgroundColor = bgColor;
+            resultDiv.style.border = `2px solid ${borderColor}`;
+            resultDiv.style.color = textColor;
+        }
+    </script>
+</body>
+</html>
